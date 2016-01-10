@@ -19,6 +19,13 @@ var s         = setInterval(function() {
     var s_now = timeFormat(now);
     var flag;
 
+     // dont't request when between 00:00 and 01:00
+
+    if(now.getHours() === 0) {
+        console.log('dont\'t request when between 00:00 and 01:00');
+        return;
+    }
+
     fs.readFile(s_now + '.txt', 'utf8', function(err, data) {
         if(err) {
             console.error('读取文件 ' + s_now + '.txt 错误');
@@ -32,11 +39,6 @@ var s         = setInterval(function() {
             for(var i = 0; i < o_data.length; i++) {
                 s_link += o_data[i].link;
             }
-        }
-        // dont't request when between 00:00 and 01:00
-
-        if(now.getHours() === 0) {
-            return;
         }
 
         request({
@@ -77,4 +79,4 @@ var s         = setInterval(function() {
             }
         });
     });
-}, 3000);
+}, 1000 * 60 *30);
