@@ -1,10 +1,20 @@
 var request    = require('request');
 var fs         = require('fs');
+var express    = require('express');
 var timeFormat = require('./timeFormat.js');
 var baseUrl    = 'http://smartisian.club:5000/topten';
 
+var app = express();
 
-var s = setInterval(function() {
+app.get('/', function(req, res) {
+    res.send('Yes');
+});
+
+app.listen(process.env.PORT || 5050, function() {
+  console.log("listen at port 5050");
+});
+
+var s         = setInterval(function() {
     var now   = new Date();
     var s_now = timeFormat(now);
     var flag;
@@ -25,7 +35,7 @@ var s = setInterval(function() {
         }
         // dont't request when between 00:00 and 01:00
 
-        if(now.getHours() == 0) {
+        if(now.getHours() === 0) {
             return;
         }
 
@@ -66,5 +76,5 @@ var s = setInterval(function() {
                 }
             }
         });
-    })
-}, 3000)
+    });
+}, 3000);
