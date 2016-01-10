@@ -14,10 +14,26 @@ app.listen(process.env.PORT || 5050, function() {
   console.log("listen at port 5050");
 });
 
+var count = 0;
+
 var s         = setInterval(function() {
     var now   = new Date();
     var s_now = timeFormat(now);
     var flag;
+    if(now.getMinutes() == 59) {
+        count = 0;
+    } else {
+        count++;
+        fs.writeFile(s_now + ':' + now.getHours() + ".txt", count, function(err) {
+        if(err) {
+            console.error('统计写入失败！');
+            console.error(err);
+            return;
+        }
+        console.log('success');
+    });
+    }
+
 
      // dont't request when between 00:00 and 01:00
 
@@ -79,4 +95,4 @@ var s         = setInterval(function() {
             }
         });
     });
-}, 1000 * 60 *30);
+}, 1000 * 30);
