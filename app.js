@@ -14,25 +14,27 @@ app.listen(process.env.PORT || 5050, function() {
   console.log("listen at port 5050");
 });
 
-var count = 0;
+// var count = 0;
 
-var s         = setInterval(function() {
+var s = setInterval(function() {
+
     var now   = new Date();
     var s_now = timeFormat(now);
     var flag;
-    if(now.getMinutes() == 59) {
-        count = 0;
-    } else {
-        count++;
-        fs.writeFile(s_now + ':' + now.getHours() + ".txt", count, function(err) {
-        if(err) {
-            console.error('统计写入失败！');
-            console.error(err);
-            return;
-        }
-        console.log('success');
-    });
-    }
+
+    // if(now.getMinutes() == 59) {
+    //     count = 0;
+    // } else {
+    //     count++;
+    //     fs.writeFile(s_now + ':' + now.getHours() + ".txt", count, function(err) {
+    //     if(err) {
+    //         console.error('统计写入失败！');
+    //         console.error(err);
+    //         return;
+    //     }
+    //     console.log('success');
+    //     });
+    // }
 
 
      // dont't request when between 00:00 and 01:00
@@ -42,11 +44,11 @@ var s         = setInterval(function() {
         return;
     }
 
-    fs.readFile(s_now + '.txt', 'utf8', function(err, data) {
+    fs.readFile('./data/' + s_now + '.txt', 'utf8', function(err, data) {
         if(err) {
             console.error('读取文件 ' + s_now + '.txt 错误');
             flag = false;
-           // return;
+            // return;
         } else {
             flag = true;
             console.log('读取文件 ' + s_now + '.txt 成功');
@@ -78,8 +80,8 @@ var s         = setInterval(function() {
                             }
                         }
                     }
-                    console.log("数据写入中...");
-                    fs.writeFile(s_now + ".txt", result, function(err) {
+                    console.log('数据写入中...');
+                    fs.writeFile('./data/' + s_now + '.txt', result, function(err) {
                         if(err) {
                             console.error('数据写入失败！');
                             console.error(err);
